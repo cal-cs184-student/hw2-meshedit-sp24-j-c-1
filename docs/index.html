@@ -5,7 +5,7 @@
   body {
     background-color: white;
     padding: 100px;
-    width: 1000px;
+    width: auto;
     margin: auto;
     text-align: left;
     font-weight: 300;
@@ -39,9 +39,9 @@
 
 <body>
 
-<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2018</h1>
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2024</h1>
 <h1 align="middle">Project 2: Mesh Edit</h1>
-<h2 align="middle">YOUR NAME</h2>
+<h2 align="middle">Jay Chen & Charles Qu</h2>
 
 <br><br>
 
@@ -49,7 +49,9 @@
 
 <h2 align="middle">Overview</h2>
 <p>
-    YOUR RESPONSE GOES HERE
+    This Project helps me understand more of how to use linear interpolation to generate a smooth Bezier Curve and Bezier surfaces in 2 or 3 dimensions. Also the implementation of edge flip, edge split, and subdivision for mesh Upsampling really reinforce my understanding of those concepts
+    , and the real life implementation gives me a taste of how does the 'magic' of those tricks can help to generate a better curve and smoother rendering. Lastly, the implementation of upsampling let me have a chacne to generate a more detailed graph.
+    And the debugging experience I have for part 4, 5, and 6 by drawing out a graph to keep track of changes was my first time, so I also learned a new debugging trick.
 </p>
 <br>
 
@@ -63,8 +65,9 @@
   Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
-</p>
+- De CasteLjau's algorithm is a recursive method for evaluating Bezier curves. It is based on the principle of linear interpolation and can be used to find any point along a Bezier curve. The algorithm works by repeatedly subdividing the control points until only one point remains, which is the point on the curve corresponding to the given parameter value.
+<br>
+- The way I implemented is following the procedure above, using linear interpolation to find total n-1 intermediate points, then return them.
 <br>
 
 
@@ -72,11 +75,12 @@
   Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+
 </p>
 <!-- Example of including a single figure -->
 <div align="middle">
-  <img src="images/your_file.png" align="middle" width="50%">
+  <img src="images/t_1_2.png" align="middle" width="50%">
+  <figcaption>6 Control points</figcaption>
 </div>
 <br>
 
@@ -88,34 +92,30 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/t1_0.png" align="middle" width="400px"/>
         <figcaption>Level 0</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/t1_1.png" align="middle" width="400px"/>
         <figcaption>Level 1</figcaption>
       </td>
     </tr>
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/t1_2.png" align="middle" width="400px"/>
         <figcaption>Level 2</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/t1_3.png" align="middle" width="400px"/>
         <figcaption>Level 3</figcaption>
       </td>
     </tr>
     <br>
-    <tr align="center">
-      <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 4</figcaption>
-      </td>
-    </tr>
   </table>
 </div>
+<br>
+</p>
 <br>
 
 
@@ -123,8 +123,11 @@
   Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter \(t\) via mouse scrolling.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
-</p>  
+
+</p>
+<div align="middle">
+  <img src="images/t1_4.png" align="middle" width="50%">
+</div>
 <br>
 
 
@@ -133,7 +136,13 @@
   Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    The de Casteljau algorithm extends to Bezier surfaces by applying the algorithm (linear interpolation between points)
+    iteratively in either two (u, v directions) or three dimensions to compute a point on the surface. <br>
+    First, the evaluateStep() calculates the intermediate points by linear interpolation given a vector
+    of points, this function is used to reduce a sequence of points down to a single point. Then the evaluate1D() uses the
+    evaluateStep() to evaluate the de Casteljau algorithm for a single dimension. And the evaluate() uses the evaluate1D() to
+    each row of control points using the u parameter, reducing the Bezier surface to a Bezier curve in the v direction. Then,
+    it applies evaluate1D on the resulting points with the v parameter to find the point on the surface.
 </p>
 <br>
 
@@ -142,7 +151,10 @@
   Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <img src="images/t2.png" align="middle" width="50%">
+  </div>
+  <br>
 </p>
 <br>
 
@@ -155,7 +167,8 @@
   Briefly explain how you implemented the area-weighted vertex normals.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    I first calculated the normal vector for each face adjacent to a vertex, weighting it by the face's area,
+    and then averaging these area-weighted normals to find the vertex normal.
 </p>
 <br>
 
@@ -164,7 +177,21 @@
   Show screenshots of dae/teapot.dae (not .bez) comparing teapot shading with and without vertex normals. Use <kbd>Q</kbd> to toggle default flat shading and Phong shading.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/t3_1.png" align="middle" width="400px"/>
+          <figcaption>Without vertex normals</figcaption>
+        </td>
+        <td>
+          <img src="images/t3_2.png" align="middle" width="400px"/>
+          <figcaption>With vertex normals</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -174,7 +201,9 @@
   Briefly explain how you implemented the edge flip operation and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    The way I flip these edges are by changing the orginial halfedgemesh to a new halfedgemesh, and we just do that by changing the (vertices
+    , edges, faces, and the halfedges) neighbors to a new halfedgemesh, updating these four atomic element types. A debugging trick I used was to changing the variable name to just a halfedgemesh's components'
+    name, ie. h4 becomes h1_1 as h1's next edge. I also drew graph to help me to trace the assignment of neighbors.
 </p>
 <br>
 
@@ -183,7 +212,21 @@
   Show screenshots of the teapot before and after some edge flips.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/t4_1.png" align="middle" width="400px"/>
+          <figcaption>Before edge flips</figcaption>
+        </td>
+        <td>
+          <img src="images/t4_2.png" align="middle" width="400px"/>
+          <figcaption>After edge flips</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -192,7 +235,8 @@
     Write about your eventful debugging journey, if you have experienced one.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    I debugged by chasing each variable's relation among others, when I made a mistake on updaing h1_2_twin's neighbors,
+    I drew a graph of what I did so far, what I have assigned for the new halfedgemesh, then I finally figured out where I got wrong, then fixed the bug.
 </p>
 <br>
 
@@ -202,16 +246,31 @@
   Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    The way I implemented the edge split operation is very similar to the previous part, but we created a new vertex in the middle, and we split two face into four faces, and created the new elements of those new halfedges,
+    then we just assign those new elements neighbors correspondingly, and we finish the split. <br> Also similar to the previous part, I drew out the graph to help me understand and keep track of the changes, this is the debugging trick I have.
 </p>
 <br>
 
 
 <b>
-    Show screenshots of a mesh before and after some edge splits. 
+    Show screenshots of a mesh before and after some edge splits.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/t5_1.png" align="middle" width="400px"/>
+          <figcaption>Before edge split</figcaption>
+        </td>
+        <td>
+          <img src="images/t5_2.png" align="middle" width="400px"/>
+          <figcaption>After edge split</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -220,7 +279,21 @@
     Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/t5_1.png" align="middle" width="400px"/>
+          <figcaption>Before edge flip and split</figcaption>
+        </td>
+        <td>
+          <img src="images/t5_3.png" align="middle" width="400px"/>
+          <figcaption>After edge flip and split</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -229,7 +302,7 @@
     Write about your eventful debugging journey, if you have experienced one.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    It's similar to part 4, I drew out the graph and keep track of changes of those elements, and the new created elements.
 </p>
 <br>
 
@@ -238,7 +311,10 @@
     If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on boundary edges.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <img src="images/t5_4.png" align="middle" width="400px">
+    <figcaption>support for boundary edges</figcaption>
+  </div>
 </p>
 <br>
 
@@ -248,7 +324,8 @@
   Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    I first computed the new positions for all the vertices (also the new edge midpoints) in the input mesh by the loop subdivision rule, stored them in the Vertex::newPosition (). Then, I computed the updated vertex positions associated with edges, and stored in Edge::newPosition.
+    Next, I split every edges and flipped the new edges that touch a new & old vertex. Finally, copy down the new vertex positions into the final Vertex::position. <br> I encountered a bug that's because I didn't set all the old edges to false before I processed them.
 </p>
 <br>
 
@@ -257,7 +334,33 @@
   Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  From the graphs below, we can observe that the loop subdivision more a smoother graph, by upsampling we divide the meshes into a smaller meshes, so we reduce the sharp corners and edges become smoother corners and edges. We may reduce this effect by pre-splitting some edges, but it will not significantly reduce the smoothing effect on sharp corners and edges in a loop division.
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/t6_1.png" align="middle" width="400px"/>
+          <figcaption>before subdivision</figcaption>
+        </td>
+        <td>
+          <img src="images/t6_2.png" align="middle" width="400px"/>
+          <figcaption>subdivision 1</figcaption>
+        </td>
+      </tr>
+      <br>
+      <tr align="center">
+        <td>
+          <img src="images/t6_3.png" align="middle" width="400px"/>
+          <figcaption>subdivision 2</figcaption>
+        </td>
+        <td>
+          <img src="images/t6_4.png" align="middle" width="400px"/>
+          <figcaption>subdivision 3</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
