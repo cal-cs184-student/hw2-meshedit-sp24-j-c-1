@@ -3,8 +3,4 @@
 
 You can view the spec for this project at [Assignment 2: MeshEdit](https://cs184.eecs.berkeley.edu/sp24/docs/hw2-spec).
 
-### Part 1
-- De CasteLjau's algorithm is a recursive method for evaluating Bezier curves. It is based on the principle of linear interpolation and can be used to find any point along a Bezier curve. The algorithm works by repeatedly subdividing the control points until only one point remains, which is the point on the curve corresponding to the given parameter value.
-<br>
-The way I implemented is following the procedure above, find the total n-1 intermediate points, then return them.
-- 
+writeup see the index.html file in docs folder
