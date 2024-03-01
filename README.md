@@ -3,4 +3,4 @@
 
 You can view the spec for this project at [Assignment 2: MeshEdit](https://cs184.eecs.berkeley.edu/sp24/docs/hw2-spec).
 
-writeup see the index.html file in docs folder
+writeup: https://cal-cs184-student.github.io/hw2-meshedit-sp24-j-c-1/
