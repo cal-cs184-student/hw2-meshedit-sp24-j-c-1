@@ -109,37 +109,35 @@ namespace CGL
     // TODO Part 4.
     // This method should flip the given edge and return an iterator to the flipped edge.
       if (!e0->isBoundary()) {
-            // Inner Halfedges
+            // Halfedges around the edge to be flipped
             HalfedgeIter h0 = e0->halfedge();
             HalfedgeIter h1 = h0->next();
             HalfedgeIter h2 = h1->next();
             HalfedgeIter h3 = h0->twin();
             HalfedgeIter h4 = h3->next();
             HalfedgeIter h5 = h4->next();
-
-            // Outer Halfedges
             HalfedgeIter h6 = h1->twin();
             HalfedgeIter h7 = h2->twin();
             HalfedgeIter h8 = h4->twin();
             HalfedgeIter h9 = h5->twin();
 
-            // Vertices
+            // Vertices at the ends of the edge to be flipped
             VertexIter v0 = h0->vertex();
             VertexIter v1 = h3->vertex();
             VertexIter v2 = h2->vertex();
             VertexIter v3 = h5->vertex();
           
-            // Edges
+            // Edges associated with the halfedges in the faces adjacent to the original edge
             EdgeIter e1 = h1->edge();
             EdgeIter e2 = h2->edge();
             EdgeIter e3 = h4->edge();
             EdgeIter e4 = h5->edge();
-
-            // Faces
+          
+            // Faces on either side of the edge
             FaceIter f1 = h0->face();
             FaceIter f2 = h3->face();
 
-            // Inner Halfedges
+            // Reassign neighbors
             h0->setNeighbors(h1,h3,v2,e0,f1);
             h1->setNeighbors(h2,h9,v3,e4,f1);
             h2->setNeighbors(h0,h6,v1,e1,f1);
@@ -147,19 +145,17 @@ namespace CGL
             h4->setNeighbors(h5,h7,v2,e2,f2);
             h5->setNeighbors(h3,h8,v0,e3,f2);
 
-            // Outer Halfedges
+            // Update the outer halfedges
             h6->setNeighbors(h6->next(),h2,v2,e1,h6->face());
             h7->setNeighbors(h7->next(),h4,v0,e2,h7->face());
             h8->setNeighbors(h8->next(),h5,v3,e3,h8->face());
             h9->setNeighbors(h9->next(),h1,v1,e4,h9->face());
 
-            // Vertices
+            // Update vertices and edges to make sure poiting to the right halfedge
             v0->halfedge() = h5;
             v1->halfedge() = h2;
             v2->halfedge() = h4;
             v3->halfedge() = h1;
-            
-            // Edges
             e0->halfedge() = h0;
             e1->halfedge() = h2;
             e2->halfedge() = h4;
@@ -179,58 +175,52 @@ namespace CGL
     // This method should split the given edge and return an iterator to the newly inserted vertex.
     // The halfedge of this vertex should point along the edge that was split, rather than the new edges.
       if (!e0->isBoundary()) {
-           // Inner Halfedges
+           // Around the original edge
            HalfedgeIter h0 = e0->halfedge();
            HalfedgeIter h1 = h0->next();
            HalfedgeIter h2 = h1->next();
            HalfedgeIter h3 = h0->twin();
            HalfedgeIter h4 = h3->next();
            HalfedgeIter h5 = h4->next();
-           // Outer Halfedges
+           // Twining the haledges that connect to surrounding vertices and face towards outside
            HalfedgeIter h6 = h1->twin();
            HalfedgeIter h7 = h2->twin();
            HalfedgeIter h8 = h4->twin();
            HalfedgeIter h9 = h5->twin();
 
-           // Vertices
-           VertexIter v0 = h0->vertex();  // first vertex at endpoint of previous edge
-           VertexIter v1 = h3->vertex();  // second vertex at opposite endpoint of previous edge
-           VertexIter v2 = h2->vertex();  // first vertex at endpoint of flipped edge
-           VertexIter v3 = h5->vertex();  // second vertex at opposite endpoint of flipped edge
+           // At the end of the original edge.
+           VertexIter v0 = h0->vertex();
+           VertexIter v1 = h3->vertex();
+           // At the opposite original edge in adjacent faces
+           VertexIter v2 = h2->vertex();
+           VertexIter v3 = h5->vertex();
 
-           // Edges
+           // Associated with halfedges in faces adjacent to the original edge
            EdgeIter e1 = h1->edge();
            EdgeIter e2 = h2->edge();
            EdgeIter e3 = h4->edge();
            EdgeIter e4 = h5->edge();
 
-           // Faces
-           FaceIter f1 = h0->face();       // face 1
-           FaceIter f2 = h3->face();       // face 2
+           // Adjacent to the original edge
+           FaceIter f1 = h0->face();
+           FaceIter f2 = h3->face();
 
-           // --------------- NEW ELEMENTS ------------
-           // New inner halfedges
+           // New halfedges, edges, faces to split
            HalfedgeIter h10 = newHalfedge();
            HalfedgeIter h11 = newHalfedge();
            HalfedgeIter h12 = newHalfedge();
            HalfedgeIter h13 = newHalfedge();
            HalfedgeIter h14 = newHalfedge();
            HalfedgeIter h15 = newHalfedge();
-
-           // New vertex
            VertexIter v = newVertex();
-           
-           // New edges
            EdgeIter e5 = newEdge();
            EdgeIter e6 = newEdge();
            EdgeIter e7 = newEdge();
-
-           // New faces
            FaceIter f3 = newFace();
            FaceIter f4 = newFace();
 
-           // --------------- UPDATES ------------------
-           // Halfedges
+
+           // Updating
            h0->setNeighbors(h1,h3,v,e0,f1);
            h1->setNeighbors(h2,h6,v1,e1,f1);
            h2->setNeighbors(h0,h11,v2,e5,f1);
@@ -249,11 +239,11 @@ namespace CGL
            h15->setNeighbors(h13,h4,v3,e7,f4);
 
            // Vertices
-           // Update vertex position to edge midpoint
+           // New vertex to be at the midpoint of the original edge
            v->position = 0.5 * (v0->position + v1->position);
-           // Update vertex status to isNew
+           // Mark new vertex isNew
            v->isNew = 1;
-           // Update vertice halfedges
+     
            v0->halfedge() = h10;
            v1->halfedge() = h1;
            v2->halfedge() = h12;
@@ -270,11 +260,11 @@ namespace CGL
            e6->halfedge() = h10;
            e7->halfedge() = h4;
            
-           // Set isNew to true for edges touching the new vertex
-           e0->isNew = 0; // half of original edge
-           e6->isNew = 0; // half of original edge
-           e5->isNew = 1; // bisecting edge half
-           e7->isNew = 1; // bisecting edge half
+           // True if edges touching the new vertex
+           e0->isNew = 0;
+           e6->isNew = 0;
+           e5->isNew = 1;
+           e7->isNew = 1;
 
            // Faces
            f1->halfedge() = h0;
@@ -282,7 +272,7 @@ namespace CGL
            f3->halfedge() = h10;
            f4->halfedge() = h13;
            
-           // Return the new vertex
+
            return v;
       }
       return VertexIter();
