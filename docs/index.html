@@ -369,7 +369,16 @@
   Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <b>Before Pre-processing:</b> The original cube with a simple topology show signs of becoming spherical and less symmetrical after several Loop subdivisions due to the algorithm's averaging process.
+  <br><b>After Pre-processing:</b> A pre-processed cube with uniformly split edges provides a higher density mesh. This higher resolution mesh maintains its structural features more effectively after subdivision, showing less rounding of corners and edges and maintaining greater symmetry.
+  <br><br>Explanation of why these effects occur:
+  <br> - <b>Loop Subdivision Averaging:</b> Loop subdivision smooths the mesh by averaging the positions of vertices based on their neighbors. This inherently rounds the mesh, affecting sharp edges and corners the most.
+  <br> - <b>Increased Vertex Density:</b> By increasing the vertex density through edge splits, the averaging process has more points to consider, which can help in preserving the mesh's overall shape and symmetry through the subdivision process.
+
+    <br><br>For edge splits: I split edges uniformly adds vertices in the middle of each edge. This increases the mesh's resolution and helps maintain more of the cube's structural integrity upon subdivision.
+    <br>Process: Split each edge of the cube to introduce a new vertex at the midpoint, effectively dividing each face of the cube into four smaller faces.
+    <br>Effect: Increases the density of vertices and edges uniformly, which helps maintain symmetry as the Loop subdivision algorithm has more vertices to "work" with, reducing the impact of averaging on the cube's overall shape.
+    <br><br> The pre-processing alleviates the effects because first it provides uniformity: uniform edge splits ensure that each face of the cube is subdivided in a symmetrical manner, countering the rounding effect by providing a denser base mesh for subdivision. Second, it provides control over smoothing: a denser mesh gives the Loop subdivision process more vertices and edges to work with, allowing for a more controlled smoothing effect that better preserves the original structure's symmetry.
 </p>
 <br>
 
@@ -378,7 +387,7 @@
     If you have implemented any extra credit extensions, explain what you did and document how they work with screenshots.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    N/A
 </p>
 <br>
 
